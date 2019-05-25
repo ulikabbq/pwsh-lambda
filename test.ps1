@@ -9,7 +9,7 @@
 # To include PowerShell modules with your Lambda function, like the AWSPowerShell.NetCore module, add a "#Requires" statement
 # indicating the module and version.
 
-#Requires -Modules @{ModuleName='AWSPowerShell.NetCore';ModuleVersion='3.3.485.0'}
+#Requires -Modules @{ModuleName='AWSPowerShell.NetCore';ModuleVersion='3.3.509.0'}
 
 # Uncomment to send the input event to CloudWatch Logs
 Write-Host (ConvertTo-Json -InputObject $LambdaInput -Compress -Depth 5)
@@ -20,10 +20,13 @@ write-host "this is the info: $info"
 
 $query = $LambdaInput.queryStringParameters
 
+$body = (ConvertTo-Json -InputObject $query -Compress -Depth 5)
+
 write-host "this is the info detail: $query" 
 
+if 
 @{
     'statusCode' = 200;
-    'body' = $query;
+    'body' = $body;
     'headers' = @{'Content-Type' = 'application/json'}
 }
