@@ -21,3 +21,9 @@ write-host "this is the info: $info"
 $detail = $LambdaInput.detail 
 
 write-host "this is the info detail: $detail" 
+
+@{
+    'statusCode' = 200;
+    'body' = $info;
+    'headers' = @{'Content-Type' = 'application/json'}
+}
