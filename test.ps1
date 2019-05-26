@@ -51,7 +51,7 @@ if ($task -eq 'test') {
 
 @{
     'statusCode' = 200;
-    'body' = 'exit';
+    'body' = "executing $task on $item";
     'headers' = @{'Content-Type' = 'text/plain'}
 }
 
