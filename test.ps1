@@ -24,7 +24,7 @@ write-host "this is the query detail: $query"
 
 $key = $query.Keys
 $value = $query.Values
-$count = $query 
+$count = $query.count
 
 write-host "this is the key: $key and this is the value: $value and this is the count: $count "
 
