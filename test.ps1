@@ -23,6 +23,12 @@ write-host "this is the input object: $input_object"
 
 $querystring = $input_object.queryStringParameters
 
+$path = $input_object.path -split "/"
+
+$task = $path[1]
+$item = $path[2]
+
+write-host "this is the task: $task and this is the item: $item"
 write-host "this is the querystring: $querystring"
 
 if ($querystring.recycle -ne $null) {
