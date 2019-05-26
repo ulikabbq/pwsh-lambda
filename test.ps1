@@ -20,17 +20,18 @@ write-host "this is the info: $info"
 
 $input_object = $info | convertfrom-json
 write-host "this is the input object: $input_object"
+
 $querystring = $input_object.queryStringParameters
 
 write-host "this is the querystring: $querystring"
 
-if ($querystring -eq 'recycle') {
+if ($querystring.recycle -ne $null) {
     write-host "this is a recycle operation"
     $value = $querystring.recycle
     write-host "this is the value $value"
 }
 
-if ($querystring -eq 'test') {
+if ($querystring.test -ne $null) {
     write-host "this is a test operation"
     $value = $querystring.test
     write-host "this is the value $value"
