@@ -19,8 +19,10 @@ $info = (ConvertTo-Json -InputObject $LambdaInput -Compress -Depth 5)
 write-host "this is the info: $info" 
 
 $input_object = $info | convertfrom-json
-
+write-host "this is the input object: $input_object"
 $querystring = $input_object.queryStringParameters
+
+write-host "this is the querystring: $querystring"
 
 if ($querystring -eq 'recycle') {
     write-host "this is a recycle operation"
