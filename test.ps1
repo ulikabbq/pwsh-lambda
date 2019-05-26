@@ -22,7 +22,6 @@ $query = $LambdaInput.queryStringParameters.test
 
 write-host "this is the info detail: $query" 
 
-if 
 @{
     'statusCode' = 200;
     'body' = $query;
