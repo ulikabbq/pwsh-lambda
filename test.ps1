@@ -22,6 +22,11 @@ $query = $LambdaInput.queryStringParameters
 
 write-host "this is the info detail: $query" 
 
+$key = $query.Keys
+$value = $query.Values
+
+write-host "this is the key: $key and this is the value: $value"
+
 $result = [PSCustomObject]@{
     computer = $query
 } | ConvertTo-Json
