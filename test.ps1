@@ -25,8 +25,8 @@ $querystring = $input_object.queryStringParameters
 
 $path = $input_object.path -split "/"
 
-$task = $path[1]
-$item = $path[2]
+$task = $path[2]
+$item = $path[3]
 
 write-host "this is the task: $task and this is the item: $item"
 write-host "this is the querystring: $querystring"
