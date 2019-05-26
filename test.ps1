@@ -25,5 +25,5 @@ write-host "this is the info detail: $query"
 @{
     'statusCode' = 200;
     'body' = $query;
-    'headers' = @{'Content-Type' = 'application/json'}
+    'headers' = @{'Content-Type' = 'text/plain'}
 }
