@@ -18,27 +18,25 @@ $info = (ConvertTo-Json -InputObject $LambdaInput -Compress -Depth 5)
 
 write-host "this is the info: $info" 
 
-$query = $LambdaInput.queryStringParameters
+$input_object = $info | convertfrom-json
 
-write-host "this is the query detail: $query" 
+$querystring = $input_object.queryStringParameters
 
-$key = $query.Keys
-$value = $query.Values
-$count = $query.count
+if ($querystring -eq 'recycle') {
+    write-host "this is a recycle operation"
+    $value = $querystring.recycle
+    write-host "this is the value $value"
+}
 
-write-host "this is the key: $key and this is the value: $value and this is the count: $count "
-
-$result = [PSCustomObject]@{
-    computer = $query
-} | ConvertTo-Json
-
-write-host "this is the result: $result" 
-
-Stop-ECSTask -Cluster 'fastly-test' -Task $query -Force
+if ($querystring -eq 'test') {
+    write-host "this is a test operation"
+    $value = $querystring.test
+    write-host "this is the value $value"
+}
 
 @{
     'statusCode' = 200;
-    'body' = $result;
+    'body' = $input_object;
     'headers' = @{'Content-Type' = 'application/json'}
 }
 
