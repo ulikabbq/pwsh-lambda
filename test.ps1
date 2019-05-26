@@ -22,8 +22,13 @@ $query = $LambdaInput.multiValueQueryStringParameters.test
 
 write-host "this is the info detail: $query" 
 
+$result = [PSCustomObject]@{
+    test = 'test'
+    CharLength = $query
+} | ConvertTo-Json
+
 @{
     'statusCode' = 200;
-    'body' = $query;
-    'headers' = @{'Content-Type' = 'text/plain'}
+    'body' = $result;
+    'headers' = @{'Content-Type' = 'application/json'}
 }
