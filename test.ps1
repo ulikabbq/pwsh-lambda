@@ -39,7 +39,7 @@ if ($querystring.test -ne $null) {
 
 @{
     'statusCode' = 200;
-    'body' = $input_object;
+    'body' = $info;
     'headers' = @{'Content-Type' = 'application/json'}
 }
 
