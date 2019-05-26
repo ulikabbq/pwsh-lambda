@@ -22,8 +22,12 @@ $query = $LambdaInput.multiValueQueryStringParameters.test
 
 write-host "this is the info detail: $query" 
 
-@{
+$template = @"
+{
     'statusCode' = 200;
     'body' = $info;
     'headers' = @{'Content-Type' = 'application/json'}
 }
+"@
+
+Return $template
