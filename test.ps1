@@ -18,13 +18,13 @@ $info = (ConvertTo-Json -InputObject $LambdaInput -Compress -Depth 5)
 
 write-host "this is the info: $info" 
 
-$query = $LambdaInput.queryStringParameters.test
+$query = $LambdaInput.queryStringParameters.recycle
 
 write-host "this is the info detail: $query" 
 
 $result = [PSCustomObject]@{
-    test = 'test'
-    CharLength = $query
+    recycle = 'recycle'
+    computer = $query
 } | ConvertTo-Json
 
 write-host "this is the result: $result" 
