@@ -20,12 +20,13 @@ write-host "this is the info: $info"
 
 $query = $LambdaInput.queryStringParameters
 
-write-host "this is the info detail: $query" 
+write-host "this is the query detail: $query" 
 
 $key = $query.Keys
 $value = $query.Values
+$count = $query 
 
-write-host "this is the key: $key and this is the value: $value"
+write-host "this is the key: $key and this is the value: $value and this is the count: $count "
 
 $result = [PSCustomObject]@{
     computer = $query
