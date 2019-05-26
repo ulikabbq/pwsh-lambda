@@ -27,6 +27,8 @@ $result = [PSCustomObject]@{
     CharLength = $query
 } | ConvertTo-Json
 
+write-host "this is the result: $result" 
+
 @{
     'statusCode' = 200;
     'body' = $result;
