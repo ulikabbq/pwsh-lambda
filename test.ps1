@@ -18,15 +18,13 @@ $info = (ConvertTo-Json -InputObject $LambdaInput -Compress -Depth 5)
 
 write-host "this is the info: $info" 
 
-$query = $LambdaInput.queryStringParameters
-
-$body = (ConvertTo-Json -InputObject $query -Compress -Depth 5)
+$query = $LambdaInput.queryStringParameters.test
 
 write-host "this is the info detail: $query" 
 
 if 
 @{
     'statusCode' = 200;
-    'body' = $body;
+    'body' = $query;
     'headers' = @{'Content-Type' = 'application/json'}
 }
