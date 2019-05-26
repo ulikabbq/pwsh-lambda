@@ -21,25 +21,31 @@ write-host "this is the info: $info"
 $input_object = $info | convertfrom-json
 write-host "this is the input object: $input_object"
 
-$querystring = $input_object.queryStringParameters
-
 $path = $input_object.path -split "/"
 
 $task = $path[2]
 $item = $path[3]
 
 write-host "this is the task: $task and this is the item: $item"
-write-host "this is the querystring: $querystring"
 
-if ($querystring.recycle -ne $null) {
+#if there is no task defined just exit 
+if ($task -eq $null) {
+@{
+    'statusCode' = 200;
+    'body' = 'exit';
+    'headers' = @{'Content-Type' = 'text/plain'}
+}
+exit}
+
+if ($task -eq 'recycle') {
     write-host "this is a recycle operation"
-    $value = $querystring.recycle
+    $value = $item
     write-host "this is the value $value"
 }
 
-if ($querystring.test -ne $null) {
+if ($task -eq 'test') {
     write-host "this is a test operation"
-    $value = $querystring.test
+    $value = $item
     write-host "this is the value $value"
 }
 
