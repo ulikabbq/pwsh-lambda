@@ -31,7 +31,7 @@ write-host "this is the result: $result"
 
 @{
     'statusCode' = 200;
-    'body' = $query;
+    'body' = $result;
     'headers' = @{'Content-Type' = 'application/json'}
 }
 
