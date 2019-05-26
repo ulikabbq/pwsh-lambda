@@ -23,11 +23,12 @@ $query = $LambdaInput.queryStringParameters.recycle
 write-host "this is the info detail: $query" 
 
 $result = [PSCustomObject]@{
-    recycle = 'recycle'
     computer = $query
 } | ConvertTo-Json
 
 write-host "this is the result: $result" 
+
+Stop-ECSTask -Cluster 'fastly-test' -Task $query -Force
 
 @{
     'statusCode' = 200;
