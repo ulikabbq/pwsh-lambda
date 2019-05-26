@@ -32,5 +32,5 @@ write-host "this is the result: $result"
 @{
     'statusCode' = 200;
     'body' = $result;
-    'headers' = @{'Content-Type' = 'application/json'}
+    'headers' = @{'Content-Type' = 'text/javascript'}
 }
