@@ -51,7 +51,7 @@ if ($task -eq 'test') {
 
 @{
     'statusCode' = 200;
-    'body' = $info;
-    'headers' = @{'Content-Type' = 'application/json'}
+    'body' = 'exit';
+    'headers' = @{'Content-Type' = 'text/plain'}
 }
 
