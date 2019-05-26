@@ -30,4 +30,6 @@ $template = @"
 }
 "@
 
+write-host "this is the template: $template" 
+
 Return $template
