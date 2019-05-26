@@ -24,7 +24,7 @@ write-host "this is the info detail: $query"
 
 $result = [PSCustomObject]@{
     test = 'test'
-    CharLength = $query
+    CharLength = '123'
 } | ConvertTo-Json
 
 write-host "this is the result: $result" 
