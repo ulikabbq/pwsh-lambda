@@ -18,7 +18,7 @@ $info = (ConvertTo-Json -InputObject $LambdaInput -Compress -Depth 5)
 
 write-host "this is the info: $info" 
 
-$query = $LambdaInput.multiValueQueryStringParameters.test
+$query = $LambdaInput.queryStringParameters.test
 
 write-host "this is the info detail: $query" 
 
