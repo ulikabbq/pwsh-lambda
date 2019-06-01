@@ -45,7 +45,7 @@ if ($task -eq 'recycle') {
 
 if ($task -eq 'test') {
     write-host "this is a test operation"
-    $value = $item
+    $value = pwd
     write-host "this is the value $value"
 }
 
