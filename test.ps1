@@ -45,8 +45,24 @@ if ($task -eq 'recycle') {
 
 if ($task -eq 'test') {
     write-host "this is a test operation"
-    $value = pwd
-    write-host "this is the value $value"
+    $path = pwd
+    Read-S3Object -BucketName rmarlow -Key environment.config -File $path/environment.config
+    write-host "this is the value $path"
+    [xml]$input_path = gc "$path/environment.config" 
+
+    $buildversion = $input_path.configuration.appSettings.add | Where-Object {$_.key -eq "BuildVersion"}
+
+    [int]$num = $buildversion.value
+
+    $num++
+
+    $buildversion.Value = "$num"
+
+    $input_path.Save("$path/environment.config")
+
+    Write-S3Object -BucketName rmarlow -Key environment.config -File $path/environment.config
+
+
 }
 
 @{
