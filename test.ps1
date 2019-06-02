@@ -43,36 +43,26 @@ if ($task -eq 'recycle') {
     write-host "this is the value $value"
 }
 
-if ($task -eq 'test') {
-    write-host "this is a test operation"
-    $path = pwd
-    $s = Read-S3Object -BucketName rmarlow -Key environment.config -File /tmp/environment.config
-    write-host "$s"
-    write-host "this is the value $path"
+if ($task -eq 'env') {
+    write-host "this is a env operation"
+    $env_file = Read-S3Object -BucketName rmarlow -Key environment.config -File /tmp/environment.config
     Read-S3Object -BucketName rmarlow -Key environment.config -File /tmp/environment.config
-    $t = ls /tmp
-    write-host "$t" 
 
     [xml]$input_path = gc "/tmp/environment.config" 
-
     $buildversion = $input_path.configuration.appSettings.add | Where-Object {$_.key -eq "BuildVersion"}
-
     [int]$num = $buildversion.value
-
     $num++
-
     $buildversion.Value = "$num"
-
     $input_path.Save("/tmp/environment.config")
 
     Write-S3Object -BucketName rmarlow -Key environment.config -File /tmp/environment.config
 
-
+    $message = "ran the environment config"
 }
 
 @{
     'statusCode' = 200;
-    'body' = "executing $task on $item";
+    'body' = "$message";
     'headers' = @{'Content-Type' = 'text/plain'}
 }
 
