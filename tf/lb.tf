@@ -1,91 +1,38 @@
-resource "aws_lb" "fastly-origin" {
-  name            = "fastly-origin"
+resource "aws_lb" "lambda_lb" {
+  name            = "lambda-lb"
   internal        = "false"
-  security_groups = ["${aws_security_group.origin_lb.id}"]
-  subnets         = ["${module.vpc.public_subnets}"]
+  security_groups = ["${aws_security_group.lambda_lb_sg.id}"]
+  subnets         = ["${aws_default_subnet.default_az1.id}", "${aws_default_subnet.default_az2.id}"]
   idle_timeout    = "3600"
 
   enable_deletion_protection = false
 
   tags {
-    Name        = "fastly-origin"
-    Description = "Application Load Balancer for fastly-origin"
+    Name        = "lambda_lb"
+    Description = "Application Load Balancer for pwsh lambda execution"
     ManagedBy   = "Terraform"
   }
 }
 
 output "lb_dns" {
-  value = "${aws_lb.fastly-origin.dns_name}"
+  value = "${aws_lb.lambda_lb.dns_name}"
 }
 
 resource "aws_lb_listener" "front_end_http" {
-  load_balancer_arn = "${aws_lb.fastly-origin.arn}"
+  load_balancer_arn = "${aws_lb.lambda_lb.arn}"
   port              = "80"
   protocol          = "HTTP"
 
   default_action {
-    target_group_arn = "${aws_lb_target_group.fastly_blue.arn}"
+    target_group_arn = "${aws_lb_target_group.lambda-example.arn}"
     type             = "forward"
   }
 }
 
-resource "aws_lb_target_group" "fastly_blue" {
-  name                 = "fastly-blue"
-  port                 = 80
-  protocol             = "HTTP"
-  vpc_id               = "${module.vpc.vpc_id}"
-  target_type          = "ip"
-  deregistration_delay = 30
-
-  health_check {
-    interval            = 10
-    path                = "/"
-    port                = "80"
-    healthy_threshold   = 2
-    unhealthy_threshold = 3
-    timeout             = 5
-    protocol            = "HTTP"
-    matcher             = "200"
-  }
-
-  tags {
-    Name        = "fastly-blue-tg"
-    Description = "Target Group for Fargate Fastly"
-    ManagedBy   = "Terraform"
-  }
-}
-
-resource "aws_lb_target_group" "fastly_green" {
-  name                 = "fastly-green"
-  port                 = 80
-  protocol             = "HTTP"
-  vpc_id               = "${module.vpc.vpc_id}"
-  target_type          = "ip"
-  deregistration_delay = 30
-
-  health_check {
-    interval            = 10
-    path                = "/"
-    port                = "80"
-    healthy_threshold   = 2
-    unhealthy_threshold = 3
-    timeout             = 5
-    protocol            = "HTTP"
-    matcher             = "200"
-  }
-
-  tags {
-    Name        = "fastly-green-tg"
-    Description = "Target Group for Fargate Fastly"
-    ManagedBy   = "Terraform"
-  }
-}
-
-resource "aws_security_group" "origin_lb" {
+resource "aws_security_group" "lambda_lb_sg" {
   description = "the alb security group that allows port 80"
 
-  vpc_id = "${module.vpc.vpc_id}"
-  name   = "fastly-origin"
+  name = "${var.name}"
 
   ingress {
     protocol    = "tcp"
@@ -131,9 +78,11 @@ resource "aws_lambda_permission" "with_lb" {
   function_name = "arn:aws:lambda:${var.region}:${data.aws_caller_identity.current.account_id}:function:${var.name}"
   principal     = "elasticloadbalancing.amazonaws.com"
   source_arn    = "${aws_lb_target_group.lambda-example.arn}"
+
+  depends_on = ["aws_codepipeline.codepipeline", "aws_lb.lambda_lb"]
 }
 
-resource "aws_lb_target_group_attachment" "test" {
+resource "aws_lb_target_group_attachment" "lambda" {
   target_group_arn = "${aws_lb_target_group.lambda-example.arn}"
   target_id        = "arn:aws:lambda:${var.region}:${data.aws_caller_identity.current.account_id}:function:${var.name}"
   depends_on       = ["aws_lambda_permission.with_lb"]

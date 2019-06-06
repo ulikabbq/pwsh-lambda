@@ -1,10 +1,12 @@
 resource "aws_s3_bucket" "code_artifacts" {
-  bucket = "pwsh-lambda-${random_string.random.result}"
+  bucket = "pwsh-lambda-${random_integer.priority.result}"
   acl    = "private"
+
+  force_destroy = true
 }
 
 resource "aws_iam_role" "codepipeline" {
-  name = "ulikabbq-lambda-test-pipeline"
+  name = "lambda-pwsh-pipeline-role"
 
   assume_role_policy = <<EOF
 {
@@ -23,7 +25,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "codepipeline_policy" {
-  name = "ulikabbq-lambda-test-codepipeline_policy"
+  name = "pwsh-lambda-codepipeline_policy"
   role = "${aws_iam_role.codepipeline.id}"
 
   policy = <<EOF
@@ -69,7 +71,7 @@ EOF
 
 // code pipeline 
 resource "aws_codepipeline" "codepipeline" {
-  name     = "ulikabbq-lambda-test"
+  name     = "pwsh-lambda-${var.name}"
   role_arn = "${aws_iam_role.codepipeline.arn}"
 
   artifact_store {
@@ -90,9 +92,9 @@ resource "aws_codepipeline" "codepipeline" {
       output_artifacts = ["lambda"]
 
       configuration = {
-        Owner  = "ulikabbq"
-        Repo   = "pwsh-lambda"
-        Branch = "master"
+        Owner  = "${var.owner}"
+        Repo   = "${var.repo}"
+        Branch = "${var.branch}"
       }
     }
   }
