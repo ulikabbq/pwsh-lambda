@@ -35,7 +35,9 @@ if ($task -eq $null) {
     'body' = 'exit';
     'headers' = @{'Content-Type' = 'text/plain'}
 }
-exit}
+    exit
+}
+
 
 if ($task -eq 'recycle') {
     write-host "this is a recycle operation"
