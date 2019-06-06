@@ -41,6 +41,7 @@ if ($task -eq 'recycle') {
     write-host "this is a recycle operation"
     $value = $item
     write-host "this is the value $value"
+    $message = "recycled $item"
 }
 
 if ($task -eq 'env') {
