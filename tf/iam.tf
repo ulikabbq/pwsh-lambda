@@ -12,7 +12,7 @@ resource "aws_iam_role" "iam_for_lambda" {
         "Service": "lambda.amazonaws.com"
       },
       "Effect": "Allow",
-      "Sid": "
+      "Sid": ""
     }
   ]
 }
