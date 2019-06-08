@@ -23,8 +23,8 @@ write-host "this is the input object: $input_object"
 
 $path = $input_object.path -split "/"
 
-$task = $path[2]
-$item = $path[3]
+$task = $path[1]
+$item = $path[2]
 
 write-host "this is the task: $task and this is the item: $item"
 
@@ -39,28 +39,9 @@ if ($task -eq $null) {
 }
 
 
-if ($task -eq 'recycle') {
-    write-host "this is a recycle operation"
-    $value = $item
-    write-host "this is the value $value"
-    $message = "recycled $item"
-}
-
-if ($task -eq 'env') {
-    write-host "this is a env operation"
-    $env_file = Read-S3Object -BucketName rmarlow -Key environment.config -File /tmp/environment.config
-    Read-S3Object -BucketName rmarlow -Key environment.config -File /tmp/environment.config
-
-    [xml]$input_path = gc "/tmp/environment.config" 
-    $buildversion = $input_path.configuration.appSettings.add | Where-Object {$_.key -eq "BuildVersion"}
-    [int]$num = $buildversion.value
-    $num++
-    $buildversion.Value = "$num"
-    $input_path.Save("/tmp/environment.config")
-
-    Write-S3Object -BucketName rmarlow -Key environment.config -File /tmp/environment.config
-
-    $message = "ran the environment config"
+if ($task -eq 'test') {
+    write-host "this is a test operation"
+    $message = "this is a test operation"
 }
 
 @{
