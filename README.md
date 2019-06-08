@@ -22,4 +22,8 @@ module "lambda_pwsh" {
   repo   = "pwsh-lambda"
   branch = "master"
 }
+
+output "dns_name" {
+    value = "${module.lambda_pwsh.alb_dns}"
+}
 ```

@@ -14,6 +14,10 @@ resource "aws_lb" "lambda_lb" {
   }
 }
 
+output "alb_dns" {
+  value = "${aws_lb.lambda_lb.dns_name}"
+}
+
 output "lb_dns" {
   value = "${aws_lb.lambda_lb.dns_name}"
 }
