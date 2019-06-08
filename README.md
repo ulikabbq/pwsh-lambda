@@ -30,4 +30,4 @@ output "dns_name" {
 }
 ```
 
-take the output dns name and paste it in your browser of choice. this will execute the test lambda function. you can also look at the logs in cloudwatch. 
+Take the output dns name and paste it in your browser of choice. this will execute the test lambda function, now add `/test`. You can also look at the logs in cloudwatch to troubleshoot any execution issues. Use `write-host` inside your script for logging to cloudwatch. 
