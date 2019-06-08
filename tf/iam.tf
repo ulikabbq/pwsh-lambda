@@ -1,6 +1,6 @@
 // iam for lambda
 resource "aws_iam_role" "iam_for_lambda" {
-  name = "generic-lambda-role"
+  name = "${var.name}-lambda-role"
 
   assume_role_policy = <<EOF
 {
@@ -12,7 +12,7 @@ resource "aws_iam_role" "iam_for_lambda" {
         "Service": "lambda.amazonaws.com"
       },
       "Effect": "Allow",
-      "Sid": ""
+      "Sid": "
     }
   ]
 }
@@ -20,7 +20,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "iam_policy" {
-  name = "generic-lambda-policy"
+  name = "${var.name}-lambda-policy"
   role = "${aws_iam_role.iam_for_lambda.id}"
 
   policy = <<EOF

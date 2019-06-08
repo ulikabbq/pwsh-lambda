@@ -6,7 +6,7 @@ resource "aws_s3_bucket" "code_artifacts" {
 }
 
 resource "aws_iam_role" "codepipeline" {
-  name = "lambda-pwsh-pipeline-role"
+  name = "${var.name}-lambda-pwsh-pipeline-role"
 
   assume_role_policy = <<EOF
 {
@@ -25,7 +25,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "codepipeline_policy" {
-  name = "pwsh-lambda-codepipeline_policy"
+  name = "${var.name}-pwsh-lambda-codepipeline_policy"
   role = "${aws_iam_role.codepipeline.id}"
 
   policy = <<EOF
@@ -71,7 +71,7 @@ EOF
 
 // code pipeline 
 resource "aws_codepipeline" "codepipeline" {
-  name     = "pwsh-lambda-${var.name}"
+  name     = "${var.name}-pwsh-lambda"
   role_arn = "${aws_iam_role.codepipeline.arn}"
 
   artifact_store {

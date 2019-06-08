@@ -1,5 +1,5 @@
 resource "aws_lb" "lambda_lb" {
-  name            = "lambda-lb"
+  name            = "${var.name}-lambda-lb"
   internal        = "false"
   security_groups = ["${aws_security_group.lambda_lb_sg.id}"]
   subnets         = ["${aws_default_subnet.default_az1.id}", "${aws_default_subnet.default_az2.id}"]
@@ -51,7 +51,7 @@ resource "aws_security_group" "lambda_lb_sg" {
 
 // lambda tg 
 resource "aws_lb_target_group" "lambda-example" {
-  name        = "lambda-tg"
+  name        = "${var.name}-lambda-tg"
   target_type = "lambda"
 
   lambda_multi_value_headers_enabled = false
