@@ -17,12 +17,12 @@ This module is configured to work with a github repository and therefore a githu
 module "lambda_pwsh" {
   source = "git@github.com:ulikabbq/pwsh-lambda.git?ref=master//tf"
 
-  name   = "ulikamodule"
-  region = "us-east-1"
-  script = "test.ps1"
-  owner  = "ulikabbq"
-  repo   = "pwsh-lambda"
-  branch = "master"
+  name   = "ulikamodule" // a unique name for the lambda function
+  region = "us-east-1"   // region for the lambda 
+  script = "test.ps1"    // name of the pwsh script to turn into a lambda function 
+  owner  = "ulikabbq"    // owner/username for the github account that is associated with the token used 
+  repo   = "pwsh-lambda" // name of the github repo 
+  branch = "master"      // name of the branch used for the codepipeline 
 }
 
 output "dns_name" {
