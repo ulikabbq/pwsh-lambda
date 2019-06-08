@@ -71,3 +71,19 @@ resource "aws_lb_listener_rule" "lambda" {
     values = ["/lambda/*"]
   }
 }
+
+resource "aws_lambda_permission" "with_lb" {
+  statement_id  = "AllowExecutionFromlb"
+  action        = "lambda:InvokeFunction"
+  function_name = "arn:aws:lambda:${var.region}:${data.aws_caller_identity.current.account_id}:function:${var.name}"
+  principal     = "elasticloadbalancing.amazonaws.com"
+  source_arn    = "${aws_lb_target_group.lambda-example.arn}"
+
+  depends_on = ["aws_codepipeline.codepipeline", "aws_lb.lambda_lb"]
+}
+
+resource "aws_lb_target_group_attachment" "lambda" {
+  target_group_arn = "${aws_lb_target_group.lambda-example.arn}"
+  target_id        = "arn:aws:lambda:${var.region}:${data.aws_caller_identity.current.account_id}:function:${var.name}"
+  depends_on       = ["aws_lambda_permission.with_lb"]
+}
