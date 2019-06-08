@@ -30,7 +30,7 @@ resource "aws_lb_listener" "front_end_http" {
 }
 
 resource "aws_security_group" "lambda_lb_sg" {
-  description = "the alb security group that allows port 80"
+  description = "the alb security group that allows port 80 to the lambda lb"
 
   name = "${var.name}"
 

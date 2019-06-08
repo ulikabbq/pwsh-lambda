@@ -1,5 +1,5 @@
 resource "aws_iam_role" "codebuild_lambda" {
-  name = "ulikabbq-lambda-test-codebuild"
+  name = "${var.name}-codebuildlambda"
 
   assume_role_policy = <<EOF
 {
@@ -99,7 +99,7 @@ data "template_file" "buildspec" {
 }
 
 resource "aws_codebuild_project" "codebuild_project" {
-  name          = "lambda-test-ulikabbq"
+  name          = "${var.name}-codebuild"
   description   = "codebuild to publish the lambda"
   build_timeout = "5"
   service_role  = "${aws_iam_role.codebuild_lambda.arn}"
